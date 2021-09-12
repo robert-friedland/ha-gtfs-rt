@@ -117,7 +117,7 @@ class PublicTransportSensor(Entity):
         if len(next_buses) > 1:
             attrs[ATTR_NEXT_UP] = next_buses[1].arrival_time.strftime('%I:%M %p') if len(next_buses) > 1 else '-'
             attrs[ATTR_NEXT_UP_DUE_IN] = due_in_minutes(next_buses[1].arrival_time) if len(next_buses) > 1 else '-'
-            attrs[ATTR_NEXT_TWO_DUE_IN] = attrs[ATTR_NEXT_TWO_DUE_IN] + ' & ' attrs[ATTR_NEXT_UP_DUE_IN] + ' minutes'
+            attrs[ATTR_NEXT_TWO_DUE_IN] = attrs[ATTR_NEXT_TWO_DUE_IN] + ' & ' + attrs[ATTR_NEXT_UP_DUE_IN] + ' minutes'
         
             
         return attrs
