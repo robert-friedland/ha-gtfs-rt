@@ -23,6 +23,7 @@ ATTR_ROUTE = "Route"
 ATTR_DUE_IN = "Due in"
 ATTR_DUE_AT = "Due at"
 ATTR_NEXT_UP = "Next bus"
+ATTR_NEXT_UP_DUE_IN = "Next bus due in"
 
 CONF_API_KEY = 'api_key'
 CONF_X_API_KEY = 'x_api_key'
@@ -113,6 +114,7 @@ class PublicTransportSensor(Entity):
                 attrs[ATTR_LONGITUDE] = next_buses[0].position.longitude
         if len(next_buses) > 1:
             attrs[ATTR_NEXT_UP] = next_buses[1].arrival_time.strftime('%I:%M %p') if len(next_buses) > 1 else '-'
+            attrs[ATTR_NEXT_UP_DUE_IN] = due_in_minutes(next_buses[1].arrival_time) if len(next_buses) > 1 else '-'
         return attrs
 
     @property
