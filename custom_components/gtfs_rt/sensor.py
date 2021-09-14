@@ -108,16 +108,25 @@ class PublicTransportSensor(Entity):
             ATTR_STOP_ID: self._stop,
             ATTR_ROUTE: self._route
         }
+        
         if len(next_buses) > 0:
             attrs[ATTR_DUE_AT] = next_buses[0].arrival_time.strftime('%I:%M %p') if len(next_buses) > 0 else '-'
-            attrs[ATTR_NEXT_TWO_DUE_IN] = 'Now' if self.state == 0 else str(self.state)
+            attrs[ATTR_NEXT_TWO_DUE_IN] = 'Now' if self.state <= 0 else str(self.state)
             if next_buses[0].position:
                 attrs[ATTR_LATITUDE] = next_buses[0].position.latitude
                 attrs[ATTR_LONGITUDE] = next_buses[0].position.longitude
         if len(next_buses) > 1:
             attrs[ATTR_NEXT_UP] = next_buses[1].arrival_time.strftime('%I:%M %p') if len(next_buses) > 1 else '-'
             attrs[ATTR_NEXT_UP_DUE_IN] = due_in_minutes(next_buses[1].arrival_time) if len(next_buses) > 1 else '-'
-            attrs[ATTR_NEXT_TWO_DUE_IN] = str(attrs[ATTR_NEXT_TWO_DUE_IN]) + ' & ' + str(attrs[ATTR_NEXT_UP_DUE_IN]) + ' minutes'
+            
+            if attrs[ATTR_NEXT_UP_DUE_IN] <= 0:
+                attrs[ATTR_NEXT_TWO_DUE_IN] = str(attrs[ATTR_NEXT_TWO_DUE_IN]) + ' & ' + 'Now'
+            
+            else:
+                attrs[ATTR_NEXT_TWO_DUE_IN] = str(attrs[ATTR_NEXT_TWO_DUE_IN]) + ' & ' + str(attrs[ATTR_NEXT_UP_DUE_IN]) + ' minutes'
+        elif len(next_buses) == 1:
+            if str(attrs[ATTR_NEXT_TWO_DUE_IN]) != 'Now':
+                attrs[ATTR_NEXT_TWO_DUE_IN] = str(attrs[ATTR_NEXT_TWO_DUE_IN]) + ' minutes'
         
             
         return attrs
