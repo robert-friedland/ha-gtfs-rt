@@ -10,6 +10,7 @@ import homeassistant.util.dt as dt_util
 from homeassistant.helpers.entity import Entity
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
+import time
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -91,7 +92,9 @@ class PublicTransportSensor(Entity):
         return self._name
 
     def _get_next_buses(self):
-        return self.data.info.get(self._route, {}).get(self._stop, [])
+        now = time.time()
+        next_buses = [bus for bus in self.data.info.get(self._route, {}).get(self._stop, []) if bus.arrival_time >= now]
+        return next_buses
 
     @property
     def state(self):
