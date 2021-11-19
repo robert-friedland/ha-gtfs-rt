@@ -4,7 +4,7 @@
     "documentation": "https://github.com/robert-friedland/ha-gtfs-rt",
     "dependencies": [],
     "codeowners": ["@robert-friedland"],
-    "version": "1.0.8",
+    "version": "1.0.9",
     "requirements": [
         "gtfs-realtime-bindings==0.0.5",
         "protobuf==3.6.1"
