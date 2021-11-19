@@ -92,8 +92,7 @@ class PublicTransportSensor(Entity):
         return self._name
 
     def _get_next_buses(self):
-        now = datetime.datetime.now()
-        next_buses = [bus for bus in self.data.info.get(self._route, {}).get(self._stop, []) if bus.arrival_time >= now]
+        next_buses = [bus for bus in self.data.info.get(self._route, {}).get(self._stop, []) if due_in_minutes(bus.arrival_time) >= -1]
         return next_buses
 
     @property
