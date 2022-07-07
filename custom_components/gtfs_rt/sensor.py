@@ -99,26 +99,7 @@ class PublicTransportSensor(Entity):
     def state(self):
         """Return the state of the sensor."""
         next_buses = self._get_next_buses()
-#         return due_in_minutes(next_buses[0].arrival_time) if len(next_buses) > 0 else '-'
-
-        first_bus_msg = null
-        second_bus_msg = null
-
-        if len(next_buses) > 0:
-            first_bus_due_in = due_in_minutes(next_buses[0].arrival_time)
-            first_bus_msg = 'Now' if first_bus_due_in <= 0 else first_bus_due_in
-            
-        if len(next_buses) > 1:
-            second_bus_due_in = due_in_minutes(next_buses[1].arrival_time)
-            second_bus_msg = 'now' if second_bus_due_in <= 0 else second_bus_due_in
-            
-
-        if first_bus_due_in and second_bus_due_in:
-            return `{first_bus_due_in} & {second_bus_due_in}{' minutes' if second_bus_due_in.lower() != 'now'}`
-        elif first_bus_due_in and not second_bus_due_in:
-            return `{first_bus_due_in}{' minutes' if first_bus_due_in.lower() != 'now'}`
-        else:
-            return '-'
+        return due_in_minutes(next_buses[0].arrival_time) if len(next_buses) > 0 else '-'
 
     @property
     def extra_state_attributes(self):
